@@ -35,5 +35,8 @@ migration-create:
 # Usaged: make migration-create name="demo"
 	migrate create -dir "migrations" -format "20060102150405" -ext sql $(name)
 
+migrate:
+	migrate -source file://migrations -database postgres://htmx_demo:pwd@localhost:5432/htmx_demo_db?sslmode=disable up
+
 run:
 	arelo -t . -p '**/*.go' -i '**/*_test.go' -i 'static/**/.*' -- go run .
