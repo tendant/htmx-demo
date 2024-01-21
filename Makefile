@@ -31,5 +31,9 @@ clean:
 css:
 	npx tailwindcss -o ./static/css/output.css
 
+migration-create:
+# Usaged: make migration-create name="demo"
+	migrate create -dir "migrations" -format "20060102150405" -ext sql $(name)
+
 run:
 	arelo -t . -p '**/*.go' -i '**/*_test.go' -i 'static/**/.*' -- go run .
