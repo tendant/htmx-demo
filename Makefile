@@ -28,5 +28,8 @@ clean:
 
 .PHONY: clean
 
+css:
+	npx tailwindcss -o ./dist/output.css
+
 run:
 	arelo -t . -p '**/*.go' -i '**/.*' -i '**/*_test.go' -- go run .

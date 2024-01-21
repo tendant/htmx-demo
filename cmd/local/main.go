@@ -6,6 +6,7 @@ import (
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/tendant/chi-demo/server"
 	"github.com/tendant/htmx-demo/idm"
+	"golang.org/x/exp/slog"
 )
 
 func main() {
@@ -14,10 +15,13 @@ func main() {
 	s := server.Default(cfg)
 	server.Routes(s.R)
 
-	tmplFile := "login.tmpl"
+	tmplFile := "../../static/templates/login.tmpl"
 	tmpl, err := template.New(tmplFile).ParseFiles(tmplFile)
 	if err != nil {
 		panic(err)
+	}
+	for i, t := range tmpl.Templates() {
+		slog.Info("template:", "i", i, "t", t.Name())
 	}
 
 	handle := idm.Handle{
