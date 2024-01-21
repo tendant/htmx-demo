@@ -13,7 +13,8 @@ import (
 )
 
 type Handle struct {
-	T *template.Template
+	T          *template.Template
+	IdmService *Service
 }
 
 func (h *Handle) Routes(r *chi.Mux) {
@@ -46,7 +47,7 @@ func (h *Handle) LoginPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	correct, err := VerifyPassword(form.Email, form.Password)
+	correct, err := h.IdmService.VerifyPassword(form.Email, form.Password)
 	if err != nil || !correct {
 		slog.Warn("Failed verifying password", "email", form.Email, "err", err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)

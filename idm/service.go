@@ -8,12 +8,16 @@ import (
 
 var ErrNoPassword = errors.New("idm: No password found")
 
-func FindPasswwordHash(email string) (string, error) {
+type Service struct {
+	queries *Queries
+}
+
+func (s *Service) FindPasswwordHash(username string) (string, error) {
 	return "", nil
 }
 
-func VerifyPassword(email string, password string) (bool, error) {
-	hash, err := FindPasswwordHash(email)
+func (s *Service) VerifyPassword(username string, password string) (bool, error) {
+	hash, err := s.FindPasswwordHash(username)
 	if err != nil {
 		return false, err
 	}
