@@ -6,6 +6,8 @@ import (
 	"mime"
 	"net/http"
 	"os"
+	"path"
+	"strings"
 
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/tendant/chi-demo/server"
@@ -16,10 +18,10 @@ import (
 //go:embed static/*
 var distFiles embed.FS
 
-func DistHandler() http.HandlerFunc {
+func StaticHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		mime.AddExtensionType(".css", "text/css; charset=utf-8")
-		f, err := distFiles.Open("static/output.css")
+		f, err := distFiles.Open(strings.TrimPrefix(path.Clean(r.URL.Path), "/"))
 		if err == nil {
 			defer f.Close()
 		}
@@ -52,7 +54,8 @@ func main() {
 
 	handle.Routes(s.R)
 
-	s.R.Get("/static/output.css", DistHandler())
+	s.R.Get("/static/css/output.css", StaticHandler())
+	s.R.Get("/static/js/htmx.min.js", StaticHandler())
 	s.Run()
 
 }
