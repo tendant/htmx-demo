@@ -8,6 +8,7 @@ require (
 	github.com/go-chi/render v1.0.2
 	github.com/ilyakaznacheev/cleanenv v1.4.0
 	github.com/tendant/chi-demo v1.1.0
+	golang.org/x/crypto v0.0.0-20220926161630-eccd6366d1be
 	golang.org/x/exp v0.0.0-20231226003508-02704c960a9b
 )
 

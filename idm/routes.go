@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log/slog"
 	"net/http"
+	"net/mail"
 	"strings"
 
 	"github.com/ggicci/httpin"
@@ -33,9 +34,27 @@ type LoginInput struct {
 	Password string `in:"form=password"`
 }
 
+func valid(email string) bool {
+	_, err := mail.ParseAddress(email)
+	return err == nil
+}
+
 func (h *Handle) LoginPost(w http.ResponseWriter, r *http.Request) {
-	// query := r.Context().Value(httpin.Input).(*LoginInput)
-	w.Header().Add("HX-Redirect", "/")
-	// http.Redirect(w, r, "http://localhost:4000/", http.StatusOK)
-	http.Redirect(w, r, "/", http.StatusOK)
+	form := r.Context().Value(httpin.Input).(*LoginInput)
+	if len(form.Email) == 0 || len(form.Password) == 0 || !valid(form.Email) {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	correct, err := VerifyPassword(form.Email, form.Password)
+	if err != nil || !correct {
+		slog.Warn("Failed verifying password", "email", form.Email, "err", err)
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	} else {
+		w.Header().Add("HX-Redirect", "/")
+		// http.Redirect(w, r, "http://localhost:4000/", http.StatusOK)
+		http.Redirect(w, r, "/", http.StatusOK)
+
+	}
 }
