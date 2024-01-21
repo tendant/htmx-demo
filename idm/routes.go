@@ -35,10 +35,7 @@ type LoginInput struct {
 
 func (h *Handle) LoginPost(w http.ResponseWriter, r *http.Request) {
 	// query := r.Context().Value(httpin.Input).(*LoginInput)
-	w.Header().Add("HX-Redirect", "http://localhost:4000/")
-	// w.Header()["HX-Redirect"] = []string{"https://google.com/"}
-	// w.Header()["HX-Refresh"] = []string{"true"}
-	// w.Header()["HX-Push-Url"] = []string{"http://localhost:4000/"}
-	// http.Redirect(w, r, "/", http.StatusFound)
-	http.Redirect(w, r, "http://localhost:4000/", http.StatusOK)
+	w.Header().Add("HX-Redirect", "/")
+	// http.Redirect(w, r, "http://localhost:4000/", http.StatusOK)
+	http.Redirect(w, r, "/", http.StatusOK)
 }
