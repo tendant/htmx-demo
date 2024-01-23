@@ -3,7 +3,7 @@ SELECT uuid, username, password
 FROM idm_users
 where username = $1;
 
--- name: FindTraining
+-- name: FindTraining :many
 SELECT uuid, name, created_at
 FROM training
-where name like '%demo%'
+where name like '%demo%';

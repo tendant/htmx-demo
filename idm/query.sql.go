@@ -11,6 +11,38 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const findTraining = `-- name: FindTraining :many
+SELECT uuid, name, created_at
+FROM training
+where name like '%demo%'
+`
+
+type FindTrainingRow struct {
+	Uuid      pgtype.UUID
+	Name      string
+	CreatedAt pgtype.Timestamp
+}
+
+func (q *Queries) FindTraining(ctx context.Context) ([]FindTrainingRow, error) {
+	rows, err := q.db.Query(ctx, findTraining)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []FindTrainingRow
+	for rows.Next() {
+		var i FindTrainingRow
+		if err := rows.Scan(&i.Uuid, &i.Name, &i.CreatedAt); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const findUserByUsername = `-- name: FindUserByUsername :one
 SELECT uuid, username, password
 FROM idm_users

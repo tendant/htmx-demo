@@ -26,3 +26,10 @@ type IdmUserEmail struct {
 	CreatedAt pgtype.Timestamp
 	DeletedAt pgtype.Timestamp
 }
+
+type Training struct {
+	Uuid      pgtype.UUID
+	Name      string
+	CreatedAt pgtype.Timestamp
+	DeletedAt pgtype.Timestamp
+}
