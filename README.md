@@ -14,5 +14,9 @@
 # Migrate database 
 
     make migrate
+    
+# Create new migration
+
+    make migration-create name="training"
 
     
