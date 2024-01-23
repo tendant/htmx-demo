@@ -64,7 +64,7 @@ type DemoDbConfig struct {
 	Port     uint16 `env:"HTMX_DEMO_PG_PORT" env-default:"5432"`
 	Database string `env:"HTMX_DEMO_PG_DATABASE" env-default:"htmx_demo_db"`
 	User     string `env:"HTMX_DEMO_PG_USER" env-default:"htmx_demo"`
-	Password string `env:"HTMX_DEMO_PG_PASSWORD" env-default:"htmx_demo"`
+	Password string `env:"HTMX_DEMO_PG_PASSWORD" env-default:"pwd"`
 }
 
 func (d DemoDbConfig) toDbConfig() DbConfig {
